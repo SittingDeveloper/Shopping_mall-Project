@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,6 +14,11 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/thymeleaf")
 public class ThymeleafExController {
+
+    @GetMapping("/")
+    public @ResponseBody String root() {
+        return "Shopping Mall ToyProject";
+    }
 
     @GetMapping(value = "/ex01")
     public String thymeleafExample01(Model model) {
@@ -65,5 +71,22 @@ public class ThymeleafExController {
 
         model.addAttribute("itemDtoList", itemDtoList);
         return "thymeleafEx/thymeleafEx04";
+    }
+
+    @GetMapping(value = "/ex05")
+    public String thymeleafExample05() {
+        return "thymeleafEx/thymeleafEx05";
+    }
+
+    @GetMapping(value = "/ex06")
+    public String thymeleafExample06(String param1, String param2, Model model) {
+        model.addAttribute("param1", param1);
+        model.addAttribute("param2", param2);
+        return "thymeleafEx/thymeleafEx06";
+    }
+
+    @GetMapping(value = "/ex07")
+    public String thymeleafEx07() {
+        return "thymeleafEx/thymeleafEx07";
     }
 }
