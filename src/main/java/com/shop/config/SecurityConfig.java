@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 
 @Configuration
@@ -26,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         모든 요청에 인증을 필요로 하지만 SecurityConfig 의 configure 메소드에
         설정을 추가하지 않으면 요청에 인증을 요구하지 않는다.
          */
-
+        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
 
     /*
