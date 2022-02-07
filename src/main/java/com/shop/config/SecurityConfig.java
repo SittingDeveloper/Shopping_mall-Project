@@ -1,25 +1,31 @@
 package com.shop.config;
 
+import com.shop.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
+    @Autowired
+    MemberService memberService;
+
     /*
     WebSecurityConfigurerAdapter 를 상속받는 클래스에 @EnableWebSecurity Annotation 을 선언하면
     SpringSecurityFilterChain 이 자동으로 포함된다. WebSecurityConfigurerAdapter 를 상속받아서
     메소드 오버라이딩을 통해 보안 설정을 커스터마이징 할 수 있다.
      */
-
     @Override
     protected void configure(HttpSecurity http) throws Exception { // http 요청에 대한 보안을 설정. 페이지 권한 설정, 로그인 페이지 설정, 로그아웃 메소드 등에 대한 설정 작성
         /*
@@ -28,6 +34,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         설정을 추가하지 않으면 요청에 인증을 요구하지 않는다.
          */
         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+        http.formLogin()
+                .loginPage("/members/login") // 로그인 페이지 URL
+                .defaultSuccessUrl("/") // 로그인 성공 시 이동할 URL
+                .usernameParameter("email") // 로그인 시 사용할 파라미터 이름으로 email 을 지정
+                .failureUrl("/members/login/error") // 로그인에 실패시 이동할 URL
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout")) // 로그아웃 URL 지정
+                .logoutSuccessUrl("/"); // 로그아웃 성공 시 이동할 URL
     }
 
     /*
@@ -40,4 +55,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         return new BCryptPasswordEncoder();
     }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        /*
+        스프링 시큐리티에서 인증은 AuthenticationManager 를 통해 이루어지며 AuthenticationManagerBuilder 가 AuthenticationManager 를 생성한다.
+        userDetailService 를 구현하고 있는 객체로 memberService 를 지정 해주며, 비밀번호 암호화를 위해 passwordEncoder 를 지정해준다.
+         */
+        auth.userDetailsService(memberService)
+                .passwordEncoder(passwordEncoder());
+    }
 }
