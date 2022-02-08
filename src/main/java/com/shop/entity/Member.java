@@ -48,7 +48,7 @@ public class Member { // 회원정보를 저장하는 Member Entity
         String password = passwordEncoder.encode(memberFormDto.getPassword());
 
         member.setPassword(password);
-        member.setRole(Role.USER);
+        member.setRole(Role.ADMIN);
         return member;
     }
 }
