@@ -13,13 +13,13 @@ import java.util.List;
 @Table(name = "orders") // 정렬에 사용하는 order 라는 키워드가 이미 존재하기 때문에 orders 로 변경
 @Getter
 @Setter
-public class Order {
+public class Order extends BaseEntity{
     @Id
     @GeneratedValue
     @JoinColumn(name = "order_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member; // 한명의 회원은 여러번 주문을 할 수 있으므로 주문 엔티티에서 다대일 단방향 매핑
 
@@ -37,7 +37,10 @@ public class Order {
 
     하나의 주문이 여러개의 주문 상품을 갖으므로 List 자료형을 사용해서 매핑을 한다.
      */
-    @OneToMany(mappedBy = "order")
+    // 부모 엔티티의 영속성 상태 변화를 자식 엔티티에 모두 전이하는 CascadeTypeAll 옵션을 설정
+    // 고아 객체를 제거하기 위해서 orphanRemoval = true 옵션 사용
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL,
+            orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     private LocalDateTime regTime;

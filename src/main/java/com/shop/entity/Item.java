@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-public class Item {
+public class Item extends BaseEntity{
 
     @Column(name = "item_id") // Item 클래스의 id 컬럼 || Item 테이블의 item_id 컬럼 (Mapping)
     @Id

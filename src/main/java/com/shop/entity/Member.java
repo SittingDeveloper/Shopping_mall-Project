@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "member")
 @Getter @Setter
 @ToString
-public class Member { // 회원정보를 저장하는 Member Entity
+public class Member extends BaseEntity { // 회원정보를 저장하는 Member Entity
 
     @Id
     @Column(name = "member_id")

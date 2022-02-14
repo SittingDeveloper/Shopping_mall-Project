@@ -9,18 +9,18 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "cart_item")
-public class CartItem {
+public class CartItem extends BaseEntity{
     @Id
     @GeneratedValue
     @Column(name = "cart_item_id")
     private Long id;
 
     // 하나의 장바구니에는 여러 개의 상품을 담을 수 있으므로 @ManyToOne
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item; // 장바구니에 담을 상품의 정보를 알아야 하므로 상품 엔티티를 매핑.
 
