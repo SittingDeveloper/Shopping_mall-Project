@@ -28,7 +28,7 @@ public class ItemSearchDto { // 상품 조회 조건
     /*
     조회할 검색어를 저장할 변수.
     searchBy가 itemNm일 경우 상품명 기준,
-               createBy일 경우 상품 등록자 아이디 기준으로 검색
+               createdBy일 경우 상품 등록자 아이디 기준으로 검색
      */
     private String searchQuery = "";
 

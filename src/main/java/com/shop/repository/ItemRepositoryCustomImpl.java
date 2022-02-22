@@ -67,8 +67,8 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom { // ItemR
 
         if (StringUtils.equals("itemNm", searchBy)) {
             return QItem.item.itemNm.like("%" + searchQuery + "%");
-        } else if (StringUtils.equals("createBy", searchBy)) {
-            return QItem.item.createBy.like("%" + searchQuery + "%");
+        } else if (StringUtils.equals("createdBy", searchBy)) {
+            return QItem.item.createdBy.like("%" + searchQuery + "%");
         }
 
         return null;
