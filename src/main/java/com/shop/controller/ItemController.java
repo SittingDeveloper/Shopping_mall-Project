@@ -105,7 +105,7 @@ public class ItemController {
 
     // value 에 상품 관리 화면 진입시 URL 에 페이지 번호가 없는 경우와 페이지 번호가 있는 경우 2가지를 매핑
     @GetMapping(value = {"/admin/items", "/admin/items/{page}"})
-    public String itemMagane(ItemSearchDto itemSearchDto,
+    public String itemManage(ItemSearchDto itemSearchDto,
                              @PathVariable("page") Optional<Integer> page, Model model) {
 
         /*
@@ -131,4 +131,10 @@ public class ItemController {
 
     }
 
+    @GetMapping(value = "/item/{itemId}")
+    public String itemDtl(Model model, @PathVariable("itemId") Long itemId) {
+        ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
+        model.addAttribute("item", itemFormDto);
+        return "item/itemDtl";
+    }
 }
