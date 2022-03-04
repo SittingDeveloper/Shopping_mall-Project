@@ -4,11 +4,13 @@ import com.shop.constant.OrderStatus;
 import com.shop.entity.Order;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
 @Getter
 @Setter
 public class OrderHistDto { // 주문 정보를 담을 orderHistDto

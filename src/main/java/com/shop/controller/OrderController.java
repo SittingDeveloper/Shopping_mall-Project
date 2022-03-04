@@ -76,6 +76,13 @@ public class OrderController { // 주문 관련 요청들을 처리
         // 현재 로그인한 회원은 이메일과 페이징 객체를 파라미터로 전달하여 화면에 전달한 주문 목록 데이터를 리터 값으로 받음.
         Page<OrderHistDto> ordersHistDtoList = orderService.getOrderList(principal.getName(), pageable);
 
+
+        System.out.println("로그");
+        List<OrderHistDto> content = ordersHistDtoList.getContent();
+        for (OrderHistDto orderHistDto : content) {
+            System.out.println("orderHistDto : " + orderHistDto.toString());
+        }
+
         model.addAttribute("orders", ordersHistDtoList);
         model.addAttribute("page", pageable.getPageNumber());
         model.addAttribute("maxPage", 5);

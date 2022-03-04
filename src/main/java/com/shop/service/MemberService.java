@@ -45,10 +45,10 @@ public class MemberService implements UserDetailsService { // UserDetailsService
 
         /*
         UserDetail 을 구현하고 있는 User 객체를 반환해줌.
-        User 개게를 생성하기 위해서 생성자로 회원의 이메일, 비밀번호, role 을 파라미터로 넘겨준다.
+        User 개체를 생성하기 위해서 생성자로 회원의 이메일, 비밀번호, role 을 파라미터로 넘겨준다.
          */
         return User.builder()
-                .username(member.getName())
+                .username(member.getEmail())
                 .password(member.getPassword())
                 .roles(member.getRole().toString())
                 .build();
