@@ -89,4 +89,24 @@ public class OrderController { // 주문 관련 요청들을 처리
 
         return "order/orderHist";
     }
+
+    /*
+    주문번호(orderId)를 받아서 주문 취소 로직을 호출하는 메소드를 만듦.
+    상품을 장바구니에 담았을 때처럼 비동기 요청을 받아서 처리함.
+     */
+    @PostMapping("/order/{orderId}/cancel")
+    public @ResponseBody
+    ResponseEntity cancelOrder(@PathVariable("orderId") Long orderId, Principal principal) {
+
+        // 자바 스크립트에서 취소할 주문 번호는 조작이 가능하므로 다른 사람의 주문을 취소하지 못하도록 주문 취소 권한 검사
+        if (!orderService.validateOrder(orderId, principal.getName())) {
+            return new ResponseEntity<String>("주문 취소 권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }
+
+        // 주문 취소 로직을 호출
+        orderService.cancelOrder(orderId);
+
+        return new ResponseEntity<Long>(orderId, HttpStatus.OK);
+
+    }
 }
