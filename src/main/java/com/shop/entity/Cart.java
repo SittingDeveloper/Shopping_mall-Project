@@ -27,4 +27,11 @@ public class Cart extends BaseEntity {
      */
     private Member member;
 
+    // 회원 엔티티를 파라미터로 받아서 장바구니 엔티티를 생성하는 로직
+    public static Cart createCart(Member member) {
+        Cart cart = new Cart();
+        cart.setMember(member);
+        return cart;
+    }
+
 }
